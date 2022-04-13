@@ -46,16 +46,16 @@ INSERT INTO musicians (first_name, last_name, instrument, net_worth) VALUES ('An
 INSERT INTO bands (name) VALUES ('Van Halen');
 INSERT INTO bands (name) VALUES ('Dave Lee Roth Band');
 INSERT INTO bands (name) VALUES ('The Beatles');
-INSERT INTO bands (name) VALUES ('The Travelling Wilberrys');
+INSERT INTO bands (name) VALUES ('The Traveling Wilburys');
 INSERT INTO bands (name) VALUES ('Nirvana');
 INSERT INTO bands (name) VALUES ('Foo Fighters');
 INSERT INTO bands (name) VALUES ('Blur');
 INSERT INTO bands (name) VALUES ('Gorillaz');
 INSERT INTO bands (name) VALUES ('The Smiths');
 INSERT INTO bands (name) VALUES ('Modest Mouse');
-INSERT INTO bands (name) VALUES ('Slipnot');
+INSERT INTO bands (name) VALUES ('Slipknot');
 INSERT INTO bands (name) VALUES ('Stone Sour');
-INSERT INTO bands (name) VALUES ('Guns n Roses');
+INSERT INTO bands (name) VALUES ('Guns N'' Roses');
 INSERT INTO bands (name) VALUES ('Road Crew');
 INSERT INTO bands (name) VALUES ('Judas Priest');
 INSERT INTO bands (name) VALUES ('King Diamond');
@@ -92,26 +92,57 @@ INSERT INTO bands_musicians (musician_id, band_id) VALUES (16,19);
 INSERT INTO bands_musicians (musician_id, band_id) VALUES (17,19);
 INSERT INTO bands_musicians (musician_id, band_id) VALUES (18,19);
 
--- SELECT musicians.first_name, musicians.last_name, bands.name FROM musicians
--- INNER JOIN bands_musicians
--- ON bands_musicians.musician_id = musicians.id
--- INNER JOIN bands
--- ON bands_musicians.band_id = bands.id;
+-- TASK 1. Select all the musicians' names and the bands they play in:
+SELECT first_name, last_name, bands.name FROM musicians
+INNER JOIN bands_musicians
+ON bands_musicians.musician_id = musicians.id
+INNER JOIN bands
+ON bands_musicians.band_id = bands.id
+ORDER BY bands.name;
 
--- SELECT musicians.first_name, musicians.last_name FROM musicians
+-- TASK 2. Select all of the members of Elastica ordered by first name alphabetically.
+-- Assuming you don't want to also include the band name in the results,
+-- a second join is no longer required:
+-- SELECT first_name, last_name FROM musicians
 -- INNER JOIN bands_musicians
 -- ON bands_musicians.musician_id = musicians.id
 -- WHERE bands_musicians.band_id = 19
 -- ORDER BY musicians.first_name;
 
--- SELECT DISTINCT musicians.first_name, musicians.last_name FROM musicians
+-- TASK 3. Select all the members of Talking Heads and Tom Tom.
+-- This depends if you want a list of all lines with both the musician and band names,
+-- which will result in duplication of the musicians in the results, or just a list
+-- of all musicians appearing in either band without specifying which one(s) they're in.
+-- The following version does the latter, but I've put an alternative that does the
+-- former inside task.md:
+-- SELECT DISTINCT first_name, last_name FROM musicians
 -- INNER JOIN bands_musicians
 -- ON bands_musicians.musician_id = musicians.id
 -- WHERE bands_musicians.band_id IN (17, 18)
 -- ORDER BY musicians.last_name;
 
-SELECT bands.name FROM bands
-INNER JOIN bands_musicians
-ON bands_musicians.band_id = band_id
-WHERE bands_musicians.musician_id = 1
-ORDER BY bands.name DESC;
+-- TASK 4. Select all of the bands that Slash is in,
+-- ordered by band name in reverse alphabetical order:
+-- SELECT name FROM bands
+-- INNER JOIN bands_musicians
+-- ON bands_musicians.band_id = band_id
+-- WHERE bands_musicians.musician_id = 1
+-- ORDER BY bands.name DESC;
+
+-- TASK 5: Select all of the musicians who have a net worth greater than or equal to
+-- 350000, ordered by net worth descending:
+-- SELECT first_name, last_name, net_worth from musicians
+-- WHERE net_worth >= 350000
+-- ORDER BY net_worth DESC;
+
+-- TASK 6: Select the musicians with the highest net worth.
+-- Depends how many you want. You could do a top 5, top 10, or whatever.
+-- This is a top 3:
+-- SELECT first_name, last_name, net_worth from musicians
+-- ORDER BY net_worth DESC LIMIT 3;
+
+-- TASK 7: Select all of the musicians with a net worth between 350000 and 2000000,
+-- ordered by net worth descending:
+-- SELECT first_name, last_name, net_worth from musicians
+-- WHERE net_worth BETWEEN 350000 AND 2000000
+-- ORDER BY net_worth DESC;
